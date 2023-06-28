@@ -31,8 +31,6 @@ namespace statechart_events
 {
 typedef enum  {
 	invalid_event = SC_INVALID_EVENT_VALUE,
-	counter1Max,
-	counter2Max,
 	Statechart_Toggle_Toggle_LED1_time_event_0,
 	Statechart_Toggle_Toggle_LED2_time_event_0
 } StatechartEventName;
@@ -58,16 +56,6 @@ class TypedSctEvent : public SctEvent
 		const T value;
 };
 
-class SctEvent__counter1Max : public SctEvent
-{
-	public:
-		SctEvent__counter1Max(StatechartEventName name_) : SctEvent(name_){};
-};
-class SctEvent__counter2Max : public SctEvent
-{
-	public:
-		SctEvent__counter2Max(StatechartEventName name_) : SctEvent(name_){};
-};
 class TimedSctEvent : public SctEvent
 {
 	public:
@@ -100,12 +88,6 @@ class Statechart : public sc::timer::TimedInterface, public sc::EventDrivenInter
 					
 		static const sc_integer numStates = 2;
 		
-		
-		/*! Raises the in event 'counter1Max' that is defined in the default interface scope. */
-		void raiseCounter1Max();
-		
-		/*! Raises the in event 'counter2Max' that is defined in the default interface scope. */
-		void raiseCounter2Max();
 		
 		
 		/*! Can be used by the client code to trigger a run to completion step without raising an event. */
@@ -165,12 +147,6 @@ class Statechart : public sc::timer::TimedInterface, public sc::EventDrivenInter
 		Statechart(const Statechart &rhs);
 		Statechart& operator=(const Statechart&);
 		
-		/*! Raises the in event 'counter1Max' that is defined in the default interface scope. */
-		void internal_raiseCounter1Max();
-		sc_boolean counter1Max_raised;
-		/*! Raises the in event 'counter2Max' that is defined in the default interface scope. */
-		void internal_raiseCounter2Max();
-		sc_boolean counter2Max_raised;
 		sc_boolean iface_dispatch_event(statechart_events::SctEvent * event);
 		
 		uint32_t viMyCounter1;

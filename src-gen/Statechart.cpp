@@ -10,8 +10,6 @@ Implementation of the state machine 'Statechart'
 
 
 Statechart::Statechart() :
-	counter1Max_raised(false),
-	counter2Max_raised(false),
 	viMyCounter1(0),
 	viMyCounter2(0),
 	timerService(sc_null),
@@ -54,11 +52,6 @@ sc_boolean Statechart::dispatch_event(SctEvent * event)
 	}
 	switch(event->name)
 	{
-		case counter1Max:
-		case counter2Max:
-		{
-			return iface_dispatch_event(event);
-		}
 		case Statechart_Toggle_Toggle_LED1_time_event_0:
 		{
 			delete event;
@@ -79,16 +72,6 @@ sc_boolean Statechart::iface_dispatch_event(SctEvent * event)
 {
 	switch(event->name)
 	{
-		case counter1Max:
-		{
-			internal_raiseCounter1Max();
-			break;
-		}
-		case counter2Max:
-		{
-			internal_raiseCounter2Max();
-			break;
-		}
 		default:
 			delete event;
 			return false;
@@ -189,26 +172,6 @@ sc_boolean Statechart::isStateActive(StatechartStates state) const
 	}
 }
 
-/* Functions for event counter1Max in interface  */
-void Statechart::raiseCounter1Max()
-{
-	inEventQueue.push_back(new SctEvent__counter1Max(counter1Max));
-        runCycle();
-}
-void Statechart::internal_raiseCounter1Max()
-{
-	counter1Max_raised = true;
-}
-/* Functions for event counter2Max in interface  */
-void Statechart::raiseCounter2Max()
-{
-	inEventQueue.push_back(new SctEvent__counter2Max(counter2Max));
-        runCycle();
-}
-void Statechart::internal_raiseCounter2Max()
-{
-	counter2Max_raised = true;
-}
 
 // implementations of all internal functions
 /* Entry action for state 'Toggle LED1'. */
@@ -328,6 +291,7 @@ sc_integer Statechart::Toggle_Toggle_LED1_react(const sc_integer transitioned_be
 		if ((viMyCounter1) >= (20))
 		{ 
 			exseq_Toggle_Toggle_LED1();
+			viMyCounter1 = 0;
 			enseq_Toggle_Toggle_LED2_default();
 			react(0);
 			transitioned_after = 0;
@@ -356,9 +320,10 @@ sc_integer Statechart::Toggle_Toggle_LED2_react(const sc_integer transitioned_be
 	sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if ((viMyCounter1) >= (10))
+		if ((viMyCounter2) >= (10))
 		{ 
 			exseq_Toggle_Toggle_LED2();
+			viMyCounter2 = 0;
 			enseq_Toggle_Toggle_LED1_default();
 			react(0);
 			transitioned_after = 0;
@@ -383,8 +348,6 @@ sc_integer Statechart::Toggle_Toggle_LED2_react(const sc_integer transitioned_be
 }
 
 void Statechart::clearInEvents() {
-	counter1Max_raised = false;
-	counter2Max_raised = false;
 	timeEvents[0] = false;
 	timeEvents[1] = false;
 }
