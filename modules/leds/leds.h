@@ -10,9 +10,10 @@
 //=====[Declarations (prototypes) of public functions]=========================
 
 void opLedInit();
-void opLedUpdate();
+void opLed1Update();
+void opLed2Update();
 int opLedRead();
-void opLedWrite( int value );
+void opLedWrite( int value);
 
 //=====[#include guards - end]=================================================
 
