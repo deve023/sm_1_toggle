@@ -12,6 +12,7 @@
 //=====[Declaration and initialization of public global objects]===============
 
 DigitalOut led1(LED1);
+DigitalOut led2(LED2);
 
 //=====[Declaration of external public global variables]=======================
 
@@ -26,11 +27,17 @@ DigitalOut led1(LED1);
 void opLedInit()
 {   
     led1 = ON;
+    led2 = OFF;
 }
 
-void opLedUpdate()
+void opLed1Update()
 {
     led1 = !led1;
+}
+
+void opLed2Update()
+{
+    led2 = !led2;
 }
 
 int OpLedRead()
